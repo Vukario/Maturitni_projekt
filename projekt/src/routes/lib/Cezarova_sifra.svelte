@@ -14,13 +14,44 @@
 	let vysledek = 'ahoj';
 	let abcd = 'abcdefghijklmnopqrstuvwxyz'
 	
-	//check if letter is uppercase
+	
 
 
 	function handleClick() {
 		ceaserCipher(string, number);
 	}
+	function handleClick2() {
+		ceaserDeCipher(string, number);
+	}
 	//decipher the string
+	let ceaserDeCipher = (str, key) =>{
+		let decipher = '';
+		
+		str = str.toLowerCase();
+		for (let i = 0; i < str.length; i++) {
+			if (str[i]==' ') {
+				decipher += ' ';
+			} else {
+				helper = abcd.indexOf(str[i]) ;
+				console.log(helper);
+				helper -= parseInt(key);
+				console.log(helper);
+
+				if (helper < 0) {
+
+					helper = helper + 26
+				}
+
+				decipher = decipher + abcd.charAt(helper);
+			}
+			
+			
+		}
+		vysledek = decipher;
+		console.log(vysledek);
+		return decipher;
+
+	}
 	let ceaserCipher = (str, key) => {
 		let decipher = '';
 		console.log(str);
@@ -28,14 +59,22 @@
 		console.log(str);
 		//decipher each letter
 		for (let i = 0; i < str.length; i++) {
-			helper = abcd.indexOf(str[i]) ;
-			console.log(helper);
-			helper += parseInt(key);
-			console.log(helper);
-			if (helper > 25) {
-				helper = helper - 26
+			if (str[i]==' ') {
+				decipher += ' ';
+			} else {
+				helper = abcd.indexOf(str[i]) ;
+				console.log(helper);
+				helper += parseInt(key);
+				console.log(helper);
+
+				if (helper > 25) {
+
+					helper = helper - 26
+				}
+
+				decipher = decipher + abcd.charAt(helper);
 			}
-			decipher = decipher + abcd.charAt(helper);
+			
 			
 		}
 		vysledek = decipher;
@@ -59,15 +98,19 @@
 		kryptografický význam. V některých pramenech se proto o Caesarových šifrách mluví jako o šifrách
 		aditivních. Na stejném principu také funguje Vigenèrova šifra, pouze místo jedné šifrové abecedy
 		používá 26 šifrových abeced, čímž dosahuje vyšší kvality šifrování.
+
+	
 	</p>
-
-	<input 
-		class="shadow appearance-none border rounded w-15 py-2 my-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-		bind:value={string}
+	<label  for="text">Text k zašifrování</label>	
+	<textarea
+	class="block p-2.5 shadow appearance-none border rounded w-1/3	 py-2 my-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+	name="text"
+	bind:value={string}
 	/>
-
+	<label  for="key">Klíč</label>
 	<input
 		class="shadow appearance-none border rounded w-15 my-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+		name="key"
 		bind:value={number}
 	/>
 	<button
@@ -75,6 +118,12 @@
 		on:click={handleClick}
 	>
 		Šifrovat
+	</button>
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClick2}
+	>
+		Rozšifrovat
 	</button>
 	<h2 class="text-7xl pb-8 text-red-900">{vysledek}</h2>
 
@@ -86,40 +135,46 @@
 		</TabList>
 
 		<TabPanel>
-			<!-- <pre><code class="language-javascript">
-				
-				nuber = 0;
-				let string = 'ahoj';
-				let vysledek = 'ahoj';
-				function isUpperCase(str) &#123
-					return str === str.toUpperCase();
-				&#125
-			</code></pre> -->
+		
 			<Prism language="javascript">
 				{`
-	let nuber = 0;
+	let number = 0;
+	let helper = 0;
 	let string = 'ahoj';
 	let vysledek = 'ahoj';
-	//check if letter is uppercase
-	function isUpperCase(str) {
-		return str === str.toUpperCase();
-	}
+	let abcd = 'abcdefghijklmnopqrstuvwxyz'
+	
+	
+
+
 	function handleClick() {
-		ceaserCipher(string, nuber);
+		ceaserCipher(string, number);
 	}
 	//decipher the string
 	let ceaserCipher = (str, key) => {
 		let decipher = '';
-
+		console.log(str);
+		str = str.toLowerCase();
+		console.log(str);
 		//decipher each letter
 		for (let i = 0; i < str.length; i++) {
-			//if letter is uppercase then add uppercase letters
-			if (isUpperCase(str[i])) {
-				decipher += String.fromCharCode(((str.charCodeAt(i) + key - 65) % 26) + 65);
+			if (str[i]==' ') {
+				decipher += ' ';
 			} else {
-				//else add lowercase letters
-				decipher += String.fromCharCode(((str.charCodeAt(i) + key - 97) % 26) + 97);
+				helper = abcd.indexOf(str[i]) ;
+				console.log(helper);
+				helper += parseInt(key);
+				console.log(helper);
+				
+				if (helper > 25) {
+
+					helper = helper - 26
+				}
+
+				decipher = decipher + abcd.charAt(helper);
 			}
+			
+			
 		}
 		vysledek = decipher;
 		console.log(vysledek);
@@ -191,15 +246,15 @@ namespace CaesarCipher
 			<Prism language="clike">
 				{`
 def cezar_cyper(plaintext, shift):
-cyphertext = ""
-for i in plaintext:
-if i.isalpha():
-cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
-else:
-cyphertext += i
-return cyphertext
+ cyphertext = ""
+ for i in plaintext:
+  if i.isalpha():
+   cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
+  else:
+   cyphertext += i
+ return cyphertext
 
-print(cezar_cyper("hello world", 3)) # "khoor zruog"
+print(cezar_cyper("hello world", 0)) # "khoor zruog"
 print(cezar_cyper("hello world", 7)) # "olssv dvysk"
 print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
 				`}							
@@ -213,4 +268,16 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
 		href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css"
 		rel="stylesheet"
 	/>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 </svelte:head>
+<style>
+	label {
+  color: black;
+  font-weight: bold;
+  display: block;
+}
+label:after { content: ": " }
+</style>

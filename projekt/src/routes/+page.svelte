@@ -9,11 +9,7 @@
 <div class="main_page text-base">
 	<Cezar />
 	<a href="/cezar">ABOUT</a>
-	<p href="../cezar">
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, obcaecati excepturi at
-		praesentium explicabo recusandae quidem? Illo blanditiis laborum, et soluta placeat iste ea
-		illum. Possimus doloribus neque ullam quae?
-	</p>
+	
 	<h1>meow</h1>
 	<p>
 		Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, obcaecati excepturi at

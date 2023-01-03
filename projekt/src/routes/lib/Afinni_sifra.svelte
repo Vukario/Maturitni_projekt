@@ -2,8 +2,9 @@
 
 
 // @ts-nocheck
+import Prism from 'svelte-prism'
 
-
+import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
 let b = 0;
 let a = 0;
 let helper = 0;
@@ -12,17 +13,23 @@ let vysledek = 'ahoj';
 let abcd = 'abcdefghijklmnopqrstuvwxyz'
 
 
+
 	function handleClick() {
 		afinniCipher(string, a , b);
 	}
 	
 	let afinniCipher = (str, a, b) => {
 		let decipher = '';
-
+		
 		
 		for (let i = 0; i < str.length; i++) {
-            helper = (parseInt(a)*abcd.indexOf(str[i]) + parseInt(b)) % 26;
-			decipher += abcd.charAt(helper)
+			if (str[i]==' ') {
+				decipher += ' ';
+			}else{
+				helper = (parseInt(a)*abcd.indexOf(str[i]) + parseInt(b)) % 26;
+				decipher += abcd.charAt(helper);
+			}
+         
 		}
 		vysledek = decipher;
 		console.log(vysledek);
@@ -33,31 +40,41 @@ let abcd = 'abcdefghijklmnopqrstuvwxyz'
 <link rel="stylesheet" href="/path/to/styles/default.min.css" />
 <div class="py-8">
 	
-	<h1 class="text-7xl pb-8 ">Cezarova šifra</h1>
+	<h1 class="text-7xl pb-8 ">Afinní Šifra</h1>
 	<p class="text-l pb-8">
-		Princip Caesarovy šifry je založen na tom, že všechna písmena zprávy jsou během šifrování
-		zaměněna za písmeno,které se abecedně nachází o pevně určený počet míst dále (tj. posun je
-		pevně zvolen). Počet možných variant klíče této šifry je o jedna menší než počet písmen (znaků)
-		v použité abecedě. Zvolíme-li hodnotu posunu stejnou, jako je počet znaků použité abecedy, bude
-		zašifrovaná zpráva identická s předlohou. Vyšším posunem, například posunem s klíčem o jedna
-		větší, než je počet písmen (znaků) abecedy, dostaneme zašifrovanou zprávu odpovídající prostému
-		posunu o klíč jedna, takže použití klíče hodnoty vyšší než počet znaků abecedy nemá
-		kryptografický význam. V některých pramenech se proto o Caesarových šifrách mluví jako o šifrách
-		aditivních. Na stejném principu také funguje Vigenèrova šifra, pouze místo jedné šifrové abecedy
-		používá 26 šifrových abeced, čímž dosahuje vyšší kvality šifrování.
-	</p>
+		Afinní šifra funguje na principu záměny podobně jako Cézarova šifra. Eliminuje základní nevýhodu
+ Cézarovy šifra (málo možností transformace). Pro zašifrování budete potřebovat dva klíče A a B. Klíče 
+musí být celá čísla. Každé písmeno ze zprávy, kterou chcete zašifrovat převedete nejprve na číslo 
+odpovídající pořadí písmena v abecedě následně vynásobíte klíčem A a přičtete k němu klíč B. 
+Výsledek nakonec vydělíte 26(počtem písmen v abecedě). Zbytek po dělení vám dává novou pozici 
+písmena v abecedě po zašifrování.</p>
+<p></p>
+<!-- svelte-ignore a11y-img-redundant-alt -->
+<svg xmlns="http://www.w3.org/2000/svg" width="184.136px" height="18.096px" viewBox="0 -750 10173.4 1000" xmlns:xlink="http://www.w3.org/1999/xlink" style=""><defs><path id="MJX-26-TEX-I-78" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path><path id="MJX-26-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-26-TEX-N-28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path><path id="MJX-26-TEX-I-61" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path><path id="MJX-26-TEX-N-D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path><path id="MJX-26-TEX-I-54" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path><path id="MJX-26-TEX-N-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path id="MJX-26-TEX-I-62" d="M73 647Q73 657 77 670T89 683Q90 683 161 688T234 694Q246 694 246 685T212 542Q204 508 195 472T180 418L176 399Q176 396 182 402Q231 442 283 442Q345 442 383 396T422 280Q422 169 343 79T173 -11Q123 -11 82 27T40 150V159Q40 180 48 217T97 414Q147 611 147 623T109 637Q104 637 101 637H96Q86 637 83 637T76 640T73 647ZM336 325V331Q336 405 275 405Q258 405 240 397T207 376T181 352T163 330L157 322L136 236Q114 150 114 114Q114 66 138 42Q154 26 178 26Q211 26 245 58Q270 81 285 114T318 219Q336 291 336 325Z"></path><path id="MJX-26-TEX-N-29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path><path id="MJX-26-TEX-N-A0" d=""></path><path id="MJX-26-TEX-I-6D" d="M21 287Q22 293 24 303T36 341T56 388T88 425T132 442T175 435T205 417T221 395T229 376L231 369Q231 367 232 367L243 378Q303 442 384 442Q401 442 415 440T441 433T460 423T475 411T485 398T493 385T497 373T500 364T502 357L510 367Q573 442 659 442Q713 442 746 415T780 336Q780 285 742 178T704 50Q705 36 709 31T724 26Q752 26 776 56T815 138Q818 149 821 151T837 153Q857 153 857 145Q857 144 853 130Q845 101 831 73T785 17T716 -10Q669 -10 648 17T627 73Q627 92 663 193T700 345Q700 404 656 404H651Q565 404 506 303L499 291L466 157Q433 26 428 16Q415 -11 385 -11Q372 -11 364 -4T353 8T350 18Q350 29 384 161L420 307Q423 322 423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 181Q151 335 151 342Q154 357 154 369Q154 405 129 405Q107 405 92 377T69 316T57 280Q55 278 41 278H27Q21 284 21 287Z"></path><path id="MJX-26-TEX-I-6F" d="M201 -11Q126 -11 80 38T34 156Q34 221 64 279T146 380Q222 441 301 441Q333 441 341 440Q354 437 367 433T402 417T438 387T464 338T476 268Q476 161 390 75T201 -11ZM121 120Q121 70 147 48T206 26Q250 26 289 58T351 142Q360 163 374 216T388 308Q388 352 370 375Q346 405 306 405Q243 405 195 347Q158 303 140 230T121 120Z"></path><path id="MJX-26-TEX-I-64" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path><path id="MJX-26-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-26-TEX-N-36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mi"><use xlink:href="#MJX-26-TEX-I-78"></use></g><g data-mml-node="mo" transform="translate(849.8, 0)"><use xlink:href="#MJX-26-TEX-N-3D"></use></g><g data-mml-node="mo" transform="translate(1905.6, 0)"><use xlink:href="#MJX-26-TEX-N-28"></use></g><g data-mml-node="mi" transform="translate(2294.6, 0)"><use xlink:href="#MJX-26-TEX-I-61"></use></g><g data-mml-node="mo" transform="translate(3045.8, 0)"><use xlink:href="#MJX-26-TEX-N-D7"></use></g><g data-mml-node="mi" transform="translate(4046, 0)"><use xlink:href="#MJX-26-TEX-I-54"></use></g><g data-mml-node="mo" transform="translate(4972.2, 0)"><use xlink:href="#MJX-26-TEX-N-2B"></use></g><g data-mml-node="mi" transform="translate(5972.4, 0)"><use xlink:href="#MJX-26-TEX-I-62"></use></g><g data-mml-node="mo" transform="translate(6401.4, 0)"><use xlink:href="#MJX-26-TEX-N-29"></use></g><g data-mml-node="mtext" transform="translate(6790.4, 0)"><use xlink:href="#MJX-26-TEX-N-A0"></use></g><g data-mml-node="mi" transform="translate(7040.4, 0)"><use xlink:href="#MJX-26-TEX-I-6D"></use></g><g data-mml-node="mi" transform="translate(7918.4, 0)"><use xlink:href="#MJX-26-TEX-I-6F"></use></g><g data-mml-node="mi" transform="translate(8403.4, 0)"><use xlink:href="#MJX-26-TEX-I-64"></use></g><g data-mml-node="mtext" transform="translate(8923.4, 0)"><use xlink:href="#MJX-26-TEX-N-A0"></use></g><g data-mml-node="mn" transform="translate(9173.4, 0)"><use xlink:href="#MJX-26-TEX-N-32"></use><use xlink:href="#MJX-26-TEX-N-36" transform="translate(500, 0)"></use></g></g></g></svg>
+<br/><p>x – písmeno po zašifrování</p>
+<p>a – první klíč</p>
+<p>T – hodnota šifrovaného písmena v abecedě</p>
+<p>b – druhý klíč</p>
+<p>mod 26 = modulo zbytek po dělení 26</p>
 
-<input 
-class="shadow appearance-none border rounded w-15 py-2 my-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+
+<label class="mt-10" for="text">Text k zašifrování</label>	
+<textarea
+class="block p-2.5 shadow appearance-none border rounded w-1/3	 py-2 my-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+name="text"
 bind:value={string}
 />
 
+<label  for="valueA">Klíč A</label>
 <input
 class="shadow appearance-none border rounded w-15 my-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+name="valueA"
 bind:value={a}
 />
+<label for="valueB">Klíč B</label>
 <input
 class="shadow appearance-none border rounded w-15 my-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+name="valueB"
 bind:value={b}
 />
 <button
@@ -66,5 +83,151 @@ on:click={handleClick}
 >
 Šifrovat
 </button>
+
+
 <h2 class="text-7xl pb-8 text-red-900">{vysledek}</h2>
+
+<Tabs>
+	<TabList>
+		<Tab>JS</Tab>
+		<Tab>c#</Tab>
+		<Tab>python</Tab>
+	</TabList>
+
+	<TabPanel>
+	
+		<Prism language="javascript">
+			{`
+let b = 0;
+let a = 0;
+let helper = 0;
+let string = 'ahoj';
+let vysledek = 'ahoj';
+let abcd = 'abcdefghijklmnopqrstuvwxyz'
+
+
+
+	function handleClick() {
+		afinniCipher(string, a , b);
+	}
+	
+	let afinniCipher = (str, a, b) => {
+		let decipher = '';
+		
+		
+		for (let i = 0; i < str.length; i++) {
+			if (str[i]==' ') {
+				decipher += ' ';
+			}else{
+				helper = (parseInt(a)*abcd.indexOf(str[i]) + parseInt(b)) % 26;
+				decipher += abcd.charAt(helper);
+			}
+         
+		}
+		vysledek = decipher;
+		console.log(vysledek);
+		return decipher;
+	};
+			`}							
+		</Prism>
+
+	</TabPanel>
+
+	<TabPanel>
+		<Prism language="clike">
+			{`
+using System;
+using System.Linq;
+
+namespace CaesarCipher
+{
+class Program
+{
+	static void Main(string[] args)
+	{
+		Console.Write("Enter a message to encrypt: ");
+		string message = Console.ReadLine();
+
+		Console.Write("Enter a key (1-26): ");
+		int key = int.Parse(Console.ReadLine());
+
+		string encryptedMessage = Encrypt(message, key);
+		Console.WriteLine($"Encrypted message: {encryptedMessage}");
+
+		string decryptedMessage = Decrypt(encryptedMessage, key);
+		Console.WriteLine($"Decrypted message: {decryptedMessage}");
+	}
+
+	static string Encrypt(string message, int key)
+	{
+		char[] encrypted = message.ToLower().ToCharArray().Select(c =>
+		{
+			if (!char.IsLetter(c))
+			{
+				return c;
+			}
+
+			char letter = (char)(c + key);
+
+			if (letter > 'z')
+			{
+				return (char)(letter - 26);
+			}
+
+			return letter;
+		}).ToArray();
+
+		return new string(encrypted);
+	}
+
+	static string Decrypt(string message, int key)
+	{
+		return Encrypt(message, 26 - key);
+	}
+}
+}
+			`}							
+		</Prism>
+	</TabPanel>
+	
+	<TabPanel>
+		<Prism language="clike">
+			{`
+def cezar_cyper(plaintext, shift):
+cyphertext = ""
+for i in plaintext:
+if i.isalpha():
+cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
+else:
+cyphertext += i
+return cyphertext
+
+print(cezar_cyper("hello world", 0)) # "khoor zruog"
+print(cezar_cyper("hello world", 7)) # "olssv dvysk"
+print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
+			`}							
+		</Prism>
+	</TabPanel>
+</Tabs>
+
+
+
+
+
+
 </div>
+<svelte:head>
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css"
+		rel="stylesheet"
+	/>
+	
+</svelte:head>
+<style>
+	label {
+  color: black;
+  font-weight: bold;
+  display: block;
+}
+label:after { content: ": " }
+</style>
