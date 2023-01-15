@@ -13,7 +13,7 @@
 
 <style>
 	.main_page {
-		scroll-behavior: smooth;
+		
 		margin-left: 16%;
 		margin-right: 2%;
 	}

@@ -24,6 +24,6 @@
 
 	.selected {
 		border-bottom: 2px solid teal;
-		color: #333;
+		color: rgb(51, 51, 51);
 	}
 </style>
