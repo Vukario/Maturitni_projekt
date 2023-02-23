@@ -5,6 +5,8 @@
     
     export let highlight = 0;
     export let kroky;
+    export let modKroky = true;
+    let pocetKroku = 0;
    
     export let postup;
     let cats = [
@@ -25,28 +27,43 @@
         { id: '15', name: `		vysledek = decipher;` },
         { id: '16', name: `		return decipher;` }
 	];
+   
     function handleClick2() {
         
 		
         console.log(kroky[highlight])
         highlight+=1;
+        pocetKroku+=1;
+        const el = document.querySelector("#line"+kroky[highlight]);
+        console.log("line"+kroky[highlight]);
+        console.log(el);
+        el.scrollIntoView({
+            behavior: 'smooth',
+            top: 20
+        });
 	}
     </script>
     
+    
+    <div class="w-3/4">
     {#if highlight>0}
         
     
-     
+
      <Prism></Prism>
      
      
     {#each cats as cat, i}
-    {#if cat.id == kroky[highlight]}
-	<pre><code class="javascript"><div class="bg-black bang">{cat.name}</div></code></pre>
+    {#if cat.id == kroky[highlight]}    
+    <div id="line{cat.id}">
+	<pre><code class="javascript"><div class="bang">{cat.name}</div></code></pre>
+    </div>
     {:else}
-	<Prism language="javascript">
+    <div id="line{cat.id}">
+	<Prism  language="javascript">
     {cat.name}
     </Prism>
+    </div>
     {/if}
     {/each}
     
@@ -54,15 +71,22 @@
     
     <h2 class="text-7xl pb-8 text-red-900">{postup[highlight]}</h2>
                             {/if}
-               
-   
+    </div>
+    {#if pocetKroku!=kroky.length-1}
     <button
-   
-    class="bg-transparent w-full hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+    class="fixediv bg-transparent w-30 hover:bg-stone-900  text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
     on:click={handleClick2}
     >
-    Krokovat
+    Pokračovat
     </button>
+    {:else}
+    <button
+    class="fixediv bg-transparent w-30 hover:bg-stone-900  text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+    
+    >krokování dokončeno</button>
+    {/if}
+   
+    
     
     <svelte:head>
         <link
@@ -80,4 +104,10 @@
            background-color:  rgb(31,41,55);
            color: white;
         }
+        .fixediv {
+    position: fixed;
+    bottom: 50%;
+    right: 2%;
+
+    }
     </style>

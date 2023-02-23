@@ -11,12 +11,20 @@
 	let number = 0;
 	let helper = 0;
 	let proslo = false;
+	let modKroky = false;
 	let string = 'ahoj';
 	let vysledek = 'ahoj';
 	let abcd = 'abcdefghijklmnopqrstuvwxyz'
 	let krok = new Array();
 	let decipherPro = new Array();
 
+	function ukoncitKrokovani(){
+		proslo = false
+		modKroky = false;
+	}
+	function handleClickModeKroky(){
+		modKroky = true;
+	}
 	function handleClick() {
 		ceaserCipher(string, number);
 		
@@ -141,13 +149,8 @@
 	
 	</p>
 </div>
-	<div class="w-2/4 float-right dick rounded-lg">
-		{#if proslo}
-		<Test kroky={krok} postup={decipherPro}></Test>
-		{/if}
 	
-</div>
-	<div class="pb-150 w-2/5 omyl">
+	<div class="w-2/5 omyl">
 	<label  for="text">Text k zašifrování</label>	
 	<textarea
 	class="block p-2.5 shadow appearance-none border rounded w-full py-2 my-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -172,8 +175,34 @@
 	>
 		Rozšifrovat
 	</button>
-	<h2 class="text-7xl pb-8 text-red-900">{vysledek}</h2>
+	{#if proslo}
+		
+	
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClickModeKroky}
+	>
+		krokování
+	</button>
+	{/if}
+	{#if modKroky}
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={ukoncitKrokovani}
+	>
+		ukončit krokování
+	</button>
+	{/if}
+	<h2 class="text-7xl text-red-900">{vysledek}</h2>
 	</div>
+	<div class="w-full float-right dick rounded-lg">
+		
+		{#if modKroky}
+		<Test kroky={krok} postup={decipherPro}></Test>
+		{/if}
+	
+	</div>
+	{#if modKroky == false}
 	<Accordion>
 		<span slot="head">Ukázat kód</span>
 		<div slot="details">
@@ -315,6 +344,7 @@
 			</Tabs>
 		</div>
 	</Accordion>
+	{/if}
 	<div class ="mt-3">
 		
 	
@@ -337,7 +367,7 @@
 		
 	}
 	.omyl{
-		padding-bottom: 40rem;
+		padding-bottom: 10rem;
 	}
 	label {
   color: black;
