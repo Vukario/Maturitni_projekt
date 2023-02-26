@@ -5,7 +5,7 @@
     
     export let highlight = 0;
     export let kroky;
-    export let modKroky = true;
+    
     let pocetKroku = 0;
    
     export let postup;
