@@ -3,37 +3,81 @@
 
 // @ts-nocheck
 import Prism from 'svelte-prism'
-
+import Accordion from './Accordion.svelte'
+import Test from './test.svelte';
 import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
 let b = 0;
 let a = 0;
 let helper = 0;
 let string = 'ahoj';
 let vysledek = 'ahoj';
-let abcd = 'abcdefghijklmnopqrstuvwxyz'
-
+let abcd = 'abcdefghijklmnopqrstuvwxyz';
+let krok = new Array();
+let decipherPro = new Array();
+let proslo = false;
+let modKroky = false;
+let kod = [
+		{ id: '0', name: `		let decipher = '';` },
+		{ id: '1', name: `		for (let i = 0; i < str.length; i++) {` },
+		{ id: '2', name: `			if (str[i]==' ') {` },
+        { id: '3', name: `			decipher += ' ';` },
+        { id: '4', name: `			}else{` },
+        { id: '5', name: `				helper = (parseInt(a)*abcd.indexOf(str[i]) + parseInt(b)) % 26;` },
+		{ id: '6', name: `				decipher += abcd.charAt(helper);` },
+		{ id: '7', name: `			}` },
+        { id: '8', name: `		}` },
+        { id: '9', name: `		vysledek = decipher;` },
+	];
 
 
 	function handleClick() {
 		afinniCipher(string, a , b);
 	}
-	
+	function ukoncitKrokovani(){
+		proslo = false
+		modKroky = false;
+	}
+	function handleClickModeKroky(){
+		modKroky = true;
+	}	
 	let afinniCipher = (str, a, b) => {
 		let decipher = '';
-		
-		
+		krok.push(0)
+		decipherPro.push(decipher)
+		krok.push(0)
+		decipherPro.push(decipher)
+		krok.push(1)
+		decipherPro.push(decipher)
 		for (let i = 0; i < str.length; i++) {
+			krok.push(2)
+			decipherPro.push(decipher)
 			if (str[i]==' ') {
+				krok.push(3)
+				decipherPro.push(decipher)
 				decipher += ' ';
+				krok.push(1)
+				decipherPro.push(decipher)
 			}else{
+				krok.push(4)
+				decipherPro.push(decipher)
+				krok.push(5)
+				decipherPro.push(decipher)
 				helper = (parseInt(a)*abcd.indexOf(str[i]) + parseInt(b)) % 26;
 				decipher += abcd.charAt(helper);
+				krok.push(6)
+				decipherPro.push(decipher)
+				krok.push(1)
+				decipherPro.push(decipher)
 			}
          
 		}
+		krok.push(9)
+		decipherPro.push(decipher)
 		vysledek = decipher;
 		console.log(vysledek);
+		proslo = true;
 		return decipher;
+		
 	};
 </script>
 
@@ -87,6 +131,39 @@ on:click={handleClick}
 
 <h2 class="text-7xl pb-8 text-red-900">{vysledek}</h2>
 
+{#if proslo}
+		
+	
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClickModeKroky}
+	>
+		krokování
+	</button>
+	{/if}
+	{#if modKroky}
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={ukoncitKrokovani}
+	>
+		ukončit krokování
+	</button>
+	{/if}
+	
+	
+	<div class="w-full float-right dick rounded-lg">
+		
+		{#if modKroky}
+		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
+		{/if}
+	
+	</div>
+
+
+	{#if modKroky == false}
+<Accordion>
+	<span slot="head">Ukázat kód</span>
+	<div slot="details">
 <Tabs>
 	<TabList>
 		<Tab>JS</Tab>
@@ -209,8 +286,9 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
 		</Prism>
 	</TabPanel>
 </Tabs>
-
-
+	</div>
+</Accordion>
+{/if}
 
 
 
@@ -224,6 +302,13 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
 	
 </svelte:head>
 <style>
+	.dick{
+		background-color: rgb(245,242,240);
+		
+	}
+	.omyl{
+		padding-bottom: 10rem;
+	}
 	label {
   color: black;
   font-weight: bold;

@@ -2,7 +2,8 @@
 // @ts-nocheck
 
 import Prism from 'svelte-prism'
-
+import Accordion from './Accordion.svelte'
+import Test from './test.svelte';
 import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
 
 let abc = "abcdefghijklmnopqrstuvwxyz";
@@ -14,6 +15,25 @@ let zakod = "";
 let pozice = 0;
 let zacatek = 0;
 let desifrace = "";
+let krok = new Array();
+let decipherPro = new Array();
+let proslo = false;
+let modKroky = false;
+let kodik = [
+		{ id: '0', name: `		for (let p = 0; p < zprava.length; p++) {` },
+		{ id: '1', name: `		    if (zprava[p] !== " ") {` },
+		{ id: '2', name: `			    zakod += vysledek[abc.indexOf(kod[pocitadlo])][abc.indexOf(zprava[p])];` },
+    { id: '3', name: `			    pocitadlo += 1;` },
+    { id: '4', name: `			    if (pocitadlo >= kod.length) {` },
+    { id: '5', name: `			      pocitadlo = 0;` },
+		{ id: '6', name: `				  }` },
+		{ id: '7', name: `			  } else {` },
+    { id: '8', name: `		      zakod += " ";` },
+    { id: '9', name: `		    }` },
+    { id: '10', name: `		}` },
+	];
+
+
 for (let i = 0; i < 26; i++) {
   vysledek.push([]);
   pozice = zacatek;
@@ -26,23 +46,51 @@ for (let i = 0; i < 26; i++) {
   }
   zacatek += 1;
 }
-console.log(vysledek);
+function ukoncitKrokovani(){
+		proslo = false
+		modKroky = false;
+	}
+	function handleClickModeKroky(){
+		modKroky = true;
+	}
+    
 function handleClick(){
 //sifrovani
 pocitadlo = 0;
 zakod = "";
+krok.push(0)
+decipherPro.push(zakod)
+krok.push(0)
+decipherPro.push(zakod) 
 for (let p = 0; p < zprava.length; p++) {
+  krok.push(1)
+  decipherPro.push(zakod) 
   if (zprava[p] !== " ") {
+    
     zakod += vysledek[abc.indexOf(kod[pocitadlo])][abc.indexOf(zprava[p])];
-    console.log(zakod);
+    krok.push(2)
+decipherPro.push(zakod) 
     pocitadlo += 1;
+    krok.push(3)
+decipherPro.push(zakod)
+krok.push(4)
+decipherPro.push(zakod) 
     if (pocitadlo >= kod.length) {
+      krok.push(5)
+decipherPro.push(zakod) 
       pocitadlo = 0;
     }
   } else {
+    krok.push(7)
+decipherPro.push(zakod) 
     zakod += " ";
+    krok.push(8)
+decipherPro.push(zakod) 
   }
+  krok.push(0)
+decipherPro.push(zakod) 
 }
+proslo = true;
 }
 function handleClick2(){
     //desifrovani
@@ -105,8 +153,37 @@ Dešifrovat
 </button>
 
 <h2 class="text-7xl pb-8 text-red-900">{zakod}</h2>
+       {#if proslo}
+		
+	
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClickModeKroky}
+	>
+		krokování
+	</button>
+	{/if}
+	{#if modKroky}
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={ukoncitKrokovani}
+	>
+		ukončit krokování
+	</button>
+	{/if}
+	
+	
+	<div class="w-full float-right dick rounded-lg">
+		
+		{#if modKroky}
+		<Test cats={kodik} kroky={krok} postup={decipherPro}></Test>
+		{/if}
+	</div>
 
-
+{#if modKroky == false}
+        <Accordion>
+            <span slot="head">Ukázat kód</span>
+		<div slot="details">
 <Tabs>
     <TabList>
         <Tab>JS</Tab>
@@ -249,8 +326,10 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
         </Prism>
     </TabPanel>
 </Tabs>
+    </div>    
+</Accordion>
 
-
+{/if}
 
 
 
@@ -264,6 +343,13 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
     
 </svelte:head>
 <style>
+    .dick{
+		background-color: rgb(245,242,240);
+		
+	}
+	.omyl{
+		padding-bottom: 10rem;
+	}
     label {
   color: black;
   font-weight: bold;

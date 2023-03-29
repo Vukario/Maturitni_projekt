@@ -9,24 +9,8 @@
     let pocetKroku = 0;
    
     export let postup;
-    let cats = [
-		{ id: '1', name: `		let decipher = '';` },
-		{ id: '2', name: `		str = str.toLowerCase();` },
-		{ id: '3', name: `		for (let i = 0; i < str.length; i++) {` },
-        { id: '4', name: `			if (str[i]==' ') {` },
-        { id: '5', name: `				decipher += ' ';` },
-        { id: '6', name: `			} else {` },
-		{ id: '7', name: `				helper = abcd.indexOf(str[i]) ;` },
-		{ id: '8', name: `				helper += parseInt(key);` },
-        { id: '9', name: `				if (helper > 25) {` },
-        { id: '10', name: `					helper = helper - 26` },
-        { id: '11', name: `				}` },
-		{ id: '12', name: `				decipher = decipher + abcd.charAt(helper);` },
-        { id: '13', name: `			}` },
-        { id: '14', name: `		}` },
-        { id: '15', name: `		vysledek = decipher;` },
-        { id: '16', name: `		return decipher;` }
-	];
+    export let cats;
+    
    
     function handleClick2() {
         

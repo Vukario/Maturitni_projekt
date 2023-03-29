@@ -3,8 +3,9 @@
 
     // @ts-nocheck
     import Prism from 'svelte-prism'
-    
-    import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
+import Accordion from './Accordion.svelte'
+import Test from './test.svelte';
+import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
     
     let sifra = '';
     let limit = 0;
@@ -12,6 +13,46 @@
     let tabulka = new Array();
     let vypis ='';
     let decipher = new Array();
+    let krok = new Array();
+    let decipherPro = new Array();
+    let proslo = false;
+    let modKroky = false;
+    let kod = [
+		{ id: '0', name: `		for (let i = 0; i < Math.ceil(sifra.length/key); i++) {` },
+		{ id: '1', name: `		    if (limit<sifra.length) {` },
+		{ id: '2', name: `			    tabulka.push(sifra[limit]);` },
+        { id: '3', name: `			    limit += 1;` },
+        { id: '4', name: `			}` },
+        { id: '5', name: `			for (let x = 0; x < key-1; x++) {` },
+		{ id: '6', name: `				if (limit<sifra.length) {` },
+		{ id: '7', name: `			        tabulka[i]+=sifra[limit]` },
+        { id: '8', name: `		            limit += 1;` },
+        { id: '9', name: `		        }` },
+        { id: '10', name: `			}` },
+		{ id: '11', name: `		}` },
+        { id: '12', name: `		for (let i = 0; i < key; i++) {` },
+        { id: '13', name: `		    decipher.push('');` },
+        { id: '14', name: `		}` },
+		{ id: '15', name: `		for (let index = 0; index < key; index++) {` },
+        { id: '16', name: `		   for (let i = 0; i < Math.ceil(sifra.length/key); i++) {` },
+        { id: '17', name: `		        if(typeof tabulka[i][index] !== 'undefined'){` },
+        { id: '18', name: `		            decipher[index] += tabulka[i][index]` },
+		{ id: '19', name: `		        }` },
+        { id: '20', name: `		   }` },
+        { id: '21', name: `		}` },
+        { id: '22', name: `		for (let index = 0; index < decipher.length; index++) {` },
+        { id: '23', name: `		   vypis += decipher[index];` },
+        { id: '24', name: `		}` },
+        
+	];
+
+    function ukoncitKrokovani(){
+		proslo = false
+		modKroky = false;
+	}
+	function handleClickModeKroky(){
+		modKroky = true;
+	}
     
         function handleClick() {
             traspozicniSifra();
@@ -28,49 +69,84 @@
         decipher = new Array();    
        
         
-        console.log(Math.ceil(sifra.length/key));
+
         sifra = sifra.replaceAll(' ', '');
-        console.log(sifra.length);
-        console.log(Math.ceil(sifra.length/key));
+        krok.push(0)
+		decipherPro.push("")
+        krok.push(0)
+		decipherPro.push("")
         for (let i = 0; i < Math.ceil(sifra.length/key); i++) {
+            krok.push(1)
+		    decipherPro.push("")
                 if (limit<sifra.length) {
+                    krok.push(2)
+		            decipherPro.push("")    
    
                     tabulka.push(sifra[limit]);
+                    krok.push(3)
+		            decipherPro.push("")
                     limit += 1;
                 }
+                krok.push(5)
+		        decipherPro.push("")
                for (let x = 0; x < key-1; x++) {
+                krok.push(6)
+		        decipherPro.push("")
                 if (limit<sifra.length) {
+                    krok.push(7)
+		            decipherPro.push("")
                     tabulka[i]+=sifra[limit]
+                    krok.push(8)
+		            decipherPro.push("")
                     limit += 1;
                 }
-               } 
+                krok.push(5)
+		        decipherPro.push("")
+               }
+               krok.push(0)
+		    decipherPro.push("")
             }
             
-     
+        krok.push(12)
+	    decipherPro.push("")
         for (let i = 0; i < key; i++) {
-            
+            krok.push(13)
+		    decipherPro.push("")
             decipher.push('');
-            
+            krok.push(12)
+		    decipherPro.push("")
            }
+        krok.push(15)
+		decipherPro.push("")
         for (let index = 0; index < key; index++) {
-            
-           
+            krok.push(16)
+		    decipherPro.push("")
            for (let i = 0; i < Math.ceil(sifra.length/key); i++) {
+            krok.push(17)
+		    decipherPro.push("")
                 if(typeof tabulka[i][index] !== 'undefined'){
+                    krok.push(18)
+		            decipherPro.push("")
                     decipher[index] += tabulka[i][index]
+                    krok.push(18)
+		            decipherPro.push("")
                 }
-
-               
+                krok.push(16)
+		    decipherPro.push("")
            }
-            
+           krok.push(15)
+		    decipherPro.push("")
         }
+        krok.push(22)
+		decipherPro.push("")
         for (let index = 0; index < decipher.length; index++) {
+            krok.push(23)
+		    decipherPro.push("")
            vypis += decipher[index];
-            
+           krok.push(22)
+		    decipherPro.push("")
         }
-        console.log(decipher);
-        console.log(vypis);
-        
+        proslo = true;
         };
 
     </script>
@@ -127,6 +203,38 @@ bind:value={key}
         </tr>
         {/each}
 
+        {#if proslo}
+		
+	
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClickModeKroky}
+	>
+		krokování
+	</button>
+	{/if}
+	{#if modKroky}
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={ukoncitKrokovani}
+	>
+		ukončit krokování
+	</button>
+	{/if}
+	
+	
+	<div class="w-full float-right dick rounded-lg">
+		
+		{#if modKroky}
+		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
+		{/if}
+	
+	</div>
+
+    {#if modKroky == false}
+        <Accordion>
+            <span slot="head">Ukázat kód</span>
+		<div slot="details">
         <Tabs>
             <TabList>
                 <Tab>JS</Tab>
@@ -281,8 +389,9 @@ bind:value={key}
                 </Prism>
             </TabPanel>
         </Tabs>
-        
-        
+        </div>
+    </Accordion>
+    {/if}
         
         
         
@@ -298,6 +407,13 @@ bind:value={key}
             
         </svelte:head>
         <style>
+            .dick{
+		background-color: rgb(245,242,240);
+		
+	}
+	.omyl{
+		padding-bottom: 10rem;
+	}
             label {
           color: black;
           font-weight: bold;
