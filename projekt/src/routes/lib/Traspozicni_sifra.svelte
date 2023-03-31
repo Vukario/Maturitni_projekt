@@ -233,7 +233,7 @@ bind:value={key}
 	{/if}
 	
 	
-	<div class="w-full float-right dick rounded-lg">
+	<div class="w-full float-right pozadi rounded-lg">
 		
 		{#if modKroky}
 		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
@@ -249,7 +249,7 @@ bind:value={key}
             <TabList>
                 <Tab>JS</Tab>
                 <Tab>c#</Tab>
-                <Tab>python</Tab>
+                
             </TabList>
         
             <TabPanel>
@@ -326,75 +326,59 @@ bind:value={key}
             <TabPanel>
                 <Prism language="clike">
                     {`
-        using System;
-        using System.Linq;
-        
-        namespace CaesarCipher
+    List<List<char>> tabulka = new List<List<char>>();
+    Console.WriteLine("zadej text k zašifrování");
+    string text = Convert.ToString(Console.ReadLine());
+    Console.WriteLine("zadej klíč");
+    double key = Convert.ToInt32(Console.ReadLine());
+    int pocitadlo = 0;
+    string zas = "";
+    text = text.Replace(" ", "");
+
+
+    for (int i = 0; i < Math.Ceiling(text.Length / key); i++)
+    {
+        tabulka.Add(new List<char>());
+        for (int x = 0; x < key; x++)
         {
-        class Program
-        {
-            static void Main(string[] args)
+            if (pocitadlo >= text.Length)
             {
-                Console.Write("Enter a message to encrypt: ");
-                string message = Console.ReadLine();
-        
-                Console.Write("Enter a key (1-26): ");
-                int key = int.Parse(Console.ReadLine());
-        
-                string encryptedMessage = Encrypt(message, key);
-                Console.WriteLine($"Encrypted message: {encryptedMessage}");
-        
-                string decryptedMessage = Decrypt(encryptedMessage, key);
-                Console.WriteLine($"Decrypted message: {decryptedMessage}");
+                break;
             }
+            tabulka[i].Add(text[pocitadlo]);
+            pocitadlo++;
+
+        }
+    }
+
+    foreach (var item in tabulka)
+    {
+        foreach (var vypis in item)
+        {
+            Console.Write(vypis);
+        }
+        Console.WriteLine();
+    }
+    Console.ReadLine();
+    for (int i = 0; i < key; i++)
+    {
         
-            static string Encrypt(string message, int key)
-            {
-                char[] encrypted = message.ToLower().ToCharArray().Select(c =>
+        if (text.Length%key!=0 && text.Length % key<=i)
+        {
+
+                for (int x = 0; x < (Math.Ceiling(text.Length / key)-1); x++)
                 {
-                    if (!char.IsLetter(c))
-                    {
-                        return c;
-                    }
-        
-                    char letter = (char)(c + key);
-        
-                    if (letter > 'z')
-                    {
-                        return (char)(letter - 26);
-                    }
-        
-                    return letter;
-                }).ToArray();
-        
-                return new string(encrypted);
-            }
-        
-            static string Decrypt(string message, int key)
-            {
-                return Encrypt(message, 26 - key);
-            }
+                Console.Write(tabulka[x][i]);
+                }
         }
-        }
-                    `}							
-                </Prism>
-            </TabPanel>
-            
-            <TabPanel>
-                <Prism language="clike">
-                    {`
-        def cezar_cyper(plaintext, shift):
-        cyphertext = ""
-        for i in plaintext:
-        if i.isalpha():
-        cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
-        else:
-        cyphertext += i
-        return cyphertext
+        else {foreach (var item in tabulka)
+        {
+            Console.Write(item[i]);
+        }}
         
-        print(cezar_cyper("hello world", 0)) # "khoor zruog"
-        print(cezar_cyper("hello world", 7)) # "olssv dvysk"
-        print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
+    }
+    
+    Console.ReadKey();
                     `}							
                 </Prism>
             </TabPanel>
@@ -417,23 +401,16 @@ bind:value={key}
             
         </svelte:head>
         <style>
-            .dick{
+            .pozadi{
 		background-color: rgb(245,242,240);
 		
 	}
-	.omyl{
-		padding-bottom: 10rem;
-	}
+	
             label {
           color: black;
           font-weight: bold;
           display: block;
         }
-        .bottom {
-    position: absolute;
-    bottom: 0;
-    right: 0; /* set the right to 0 */
-  }
   
 
         label:after { content: ": " }

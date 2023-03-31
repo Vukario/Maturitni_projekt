@@ -181,7 +181,7 @@ function handleClick2() {
 	{/if}
 	
 	
-	<div class="w-full float-right dick rounded-lg">
+	<div class="w-full float-right pozadi rounded-lg">
 		
 		{#if modKroky}
 		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
@@ -196,8 +196,7 @@ function handleClick2() {
     <Tabs>
         <TabList>
             <Tab>JS</Tab>
-            <Tab>c#</Tab>
-            <Tab>python</Tab>
+            
         </TabList>
     
         <TabPanel>
@@ -259,81 +258,6 @@ function handleClick2() {
     
         </TabPanel>
     
-        <TabPanel>
-            <Prism language="clike">
-                {`
-    using System;
-    using System.Linq;
-    
-    namespace CaesarCipher
-    {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.Write("Enter a message to encrypt: ");
-            string message = Console.ReadLine();
-    
-            Console.Write("Enter a key (1-26): ");
-            int key = int.Parse(Console.ReadLine());
-    
-            string encryptedMessage = Encrypt(message, key);
-            Console.WriteLine($"Encrypted message: {encryptedMessage}");
-    
-            string decryptedMessage = Decrypt(encryptedMessage, key);
-            Console.WriteLine($"Decrypted message: {decryptedMessage}");
-        }
-    
-        static string Encrypt(string message, int key)
-        {
-            char[] encrypted = message.ToLower().ToCharArray().Select(c =>
-            {
-                if (!char.IsLetter(c))
-                {
-                    return c;
-                }
-    
-                char letter = (char)(c + key);
-    
-                if (letter > 'z')
-                {
-                    return (char)(letter - 26);
-                }
-    
-                return letter;
-            }).ToArray();
-    
-            return new string(encrypted);
-        }
-    
-        static string Decrypt(string message, int key)
-        {
-            return Encrypt(message, 26 - key);
-        }
-    }
-    }
-                `}							
-            </Prism>
-        </TabPanel>
-        
-        <TabPanel>
-            <Prism language="clike">
-                {`
-    def cezar_cyper(plaintext, shift):
-    cyphertext = ""
-    for i in plaintext:
-    if i.isalpha():
-    cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
-    else:
-    cyphertext += i
-    return cyphertext
-    
-    print(cezar_cyper("hello world", 0)) # "khoor zruog"
-    print(cezar_cyper("hello world", 7)) # "olssv dvysk"
-    print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
-                `}							
-            </Prism>
-        </TabPanel>
     </Tabs>
 </div>
 </Accordion>
@@ -352,13 +276,11 @@ function handleClick2() {
         
     </svelte:head>
     <style>
-        .dick{
+        .pozadi{
             background-color: rgb(245,242,240);
             
         }
-        .omyl{
-            padding-bottom: 10rem;
-        }
+       
         label {
       color: black;
       font-weight: bold;

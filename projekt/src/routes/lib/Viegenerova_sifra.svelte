@@ -198,7 +198,7 @@ Dešifrovat
 	{/if}
 	
 	
-	<div class="w-full float-right dick rounded-lg">
+	<div class="w-full float-right pozadi rounded-lg">
 		
 		{#if modKroky}
 		<Test cats={kodik} kroky={krok} postup={decipherPro}></Test>
@@ -263,56 +263,52 @@ for (let p = 0; p < zprava.length; p++) {
     <TabPanel>
         <Prism language="clike">
             {`
-using System;
-using System.Linq;
+string abc = "abcdefghijklmnopqrstuvwxyz";
+List<string> vysledek = new List<string>();
+string kod = "kod";
+int pocitadlo = 0;
+string zprava = "ahooj jak se mas";
+string zakod = "";
+int pozice = 0;
+int zacatek = 0;
 
-namespace CaesarCipher
+for (int i = 0; i < 26; i++)
 {
-class Program
-{
-    static void Main(string[] args)
+    vysledek.Add("");
+    pozice = zacatek;
+    for (int b = 0; b < 26; b++)
     {
-        Console.Write("Enter a message to encrypt: ");
-        string message = Console.ReadLine();
-
-        Console.Write("Enter a key (1-26): ");
-        int key = int.Parse(Console.ReadLine());
-
-        string encryptedMessage = Encrypt(message, key);
-        Console.WriteLine($"Encrypted message: {encryptedMessage}");
-
-        string decryptedMessage = Decrypt(encryptedMessage, key);
-        Console.WriteLine($"Decrypted message: {decryptedMessage}");
-    }
-
-    static string Encrypt(string message, int key)
-    {
-        char[] encrypted = message.ToLower().ToCharArray().Select(c =>
+        vysledek[i] += abc[pozice];
+        pozice += 1;
+        if (pozice > 25)
         {
-            if (!char.IsLetter(c))
-            {
-                return c;
-            }
-
-            char letter = (char)(c + key);
-
-            if (letter > 'z')
-            {
-                return (char)(letter - 26);
-            }
-
-            return letter;
-        }).ToArray();
-
-        return new string(encrypted);
+            pozice = 0;
+        }
     }
+    zacatek += 1;
+}
 
-    static string Decrypt(string message, int key)
+pocitadlo = 0;
+zakod = "";
+
+for (int p = 0; p < zprava.Length; p++)
+{
+    if (zprava[p] != ' ')
     {
-        return Encrypt(message, 26 - key);
+        zakod += vysledek[abc.IndexOf(kod[pocitadlo])][abc.IndexOf(zprava[p])];
+        pocitadlo += 1;
+        if (pocitadlo >= kod.Length)
+        {
+            pocitadlo = 0;
+        }
+    }
+    else
+    {
+        zakod += " ";
     }
 }
-}
+Console.WriteLine(zakod);
+Console.ReadLine();
             `}							
         </Prism>
     </TabPanel>
@@ -320,18 +316,37 @@ class Program
     <TabPanel>
         <Prism language="clike">
             {`
-def cezar_cyper(plaintext, shift):
-cyphertext = ""
-for i in plaintext:
-if i.isalpha():
-cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
-else:
-cyphertext += i
-return cyphertext
+abc = "abcdefghijklmnopqrstuvwxyz"
+vysledek = []
+kod = "kod"
+pocitadlo = 0
+zprava = "ahoj jak se mas"
+zakod = ""
+pozice = 0
+zacatek = 0
 
-print(cezar_cyper("hello world", 0)) # "khoor zruog"
-print(cezar_cyper("hello world", 7)) # "olssv dvysk"
-print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
+for i in range(26):
+    vysledek.append("")
+    pozice = zacatek
+    for b in range(26):
+        vysledek[i] += abc[pozice]
+        pozice += 1
+        if pozice > 25:
+            pozice = 0
+    zacatek += 1
+
+pocitadlo = 0
+zakod = ""
+
+for p in range(len(zprava)):
+    if zprava[p] != " ":
+        zakod += vysledek[abc.index(kod[pocitadlo])][abc.index(zprava[p])]
+        pocitadlo += 1
+        if pocitadlo >= len(kod):
+            pocitadlo = 0
+    else:
+        zakod += " "
+print(zakod)
             `}							
         </Prism>
     </TabPanel>
@@ -353,13 +368,11 @@ print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
     
 </svelte:head>
 <style>
-    .dick{
+    .pozadi{
 		background-color: rgb(245,242,240);
 		
 	}
-	.omyl{
-		padding-bottom: 10rem;
-	}
+	
     label {
   color: black;
   font-weight: bold;

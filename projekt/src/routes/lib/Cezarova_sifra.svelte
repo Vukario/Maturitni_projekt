@@ -92,10 +92,16 @@
 	
 		str = str.toLowerCase();
 		for (let index = 0; index < str.length; index++) {
-			if (!abcd.includes(str[index])) {
-				vysledek="chybný input";
+			for (let index = 0; index < str.length; index++) {
+			if (abcd.includes(str[index])||str[index]==" ") {
+               
+			}else{
+                
+				zakod="chybný input";
 				return;
-			}
+            }
+			
+		}
 			
 		}
 		
@@ -229,7 +235,7 @@
 	{/if}
 	<h2 class="text-7xl text-red-900">{vysledek}</h2>
 	</div>
-	<div class="w-full float-right dick rounded-lg">
+	<div class="w-full float-right pozadi rounded-lg">
 		
 		{#if modKroky}
 		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
@@ -393,7 +399,7 @@
   </script>
 </svelte:head>
 <style>
-	.dick{
+	.pozadi{
 		background-color: rgb(245,242,240);
 		
 	}

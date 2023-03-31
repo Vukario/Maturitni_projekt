@@ -56,11 +56,14 @@ let kod = [
 				return;
 		}
 		str = str.toLowerCase();
-		for (let index = 0; index < string.length; index++) {
-			if (!abcd.includes(str[index])) {
-				vysledek="chybný input";
+		for (let index = 0; index < str.length; index++) {
+			if (abcd.includes(str[index])||str[index]==" ") {
+               
+			}else{
+                
+				zakod="chybný input";
 				return;
-			}
+            }
 			
 		}
 		let decipher = '';
@@ -173,7 +176,7 @@ on:click={handleClick}
 	{/if}
 	
 	
-	<div class="w-full float-right dick rounded-lg">
+	<div class="w-full float-right pozadi rounded-lg">
 		
 		{#if modKroky}
 		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
@@ -309,13 +312,11 @@ print(cipher_text)
 	
 </svelte:head>
 <style>
-	.dick{
+	.pozadi{
 		background-color: rgb(245,242,240);
 		
 	}
-	.omyl{
-		padding-bottom: 10rem;
-	}
+	
 	label {
   color: black;
   font-weight: bold;
