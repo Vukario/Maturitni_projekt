@@ -54,6 +54,7 @@
 	}
 	//decipher the string
 	let ceaserDeCipher = (str, key) =>{
+	
 		let decipher = '';
 		
 		str = str.toLowerCase();
@@ -82,7 +83,21 @@
 
 	}
 	let ceaserCipher = (str, key) => {
-		
+		if (parseInt(key) || key == 0) {
+			
+		}else{
+			vysledek="klíč musí být číslo";
+				return;
+		}
+	
+		str = str.toLowerCase();
+		for (let index = 0; index < str.length; index++) {
+			if (!abcd.includes(str[index])) {
+				vysledek="chybný input";
+				return;
+			}
+			
+		}
 		
 		let decipher = '';
 		krok.push(0)

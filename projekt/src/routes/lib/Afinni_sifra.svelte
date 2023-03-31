@@ -41,6 +41,28 @@ let kod = [
 		modKroky = true;
 	}	
 	let afinniCipher = (str, a, b) => {
+
+		if (parseInt(a) || a == 0) {
+			
+		}else{
+			vysledek="klíč musí být číslo";
+				return;
+		}
+		
+		if (parseInt(b) || b == 0) {
+
+		}else{
+			vysledek="klíč musí být číslo";
+				return;
+		}
+		str = str.toLowerCase();
+		for (let index = 0; index < string.length; index++) {
+			if (!abcd.includes(str[index])) {
+				vysledek="chybný input";
+				return;
+			}
+			
+		}
 		let decipher = '';
 		krok.push(0)
 		decipherPro.push(decipher)
@@ -213,56 +235,30 @@ let abcd = 'abcdefghijklmnopqrstuvwxyz'
 	<TabPanel>
 		<Prism language="clike">
 			{`
-using System;
-using System.Linq;
+int a = 2;
+int b = 3;
+int helper = 0;
+string str = "ahoj";
+string vysledek = "ahoj";
+string abcd = "abcdefghijklmnopqrstuvwxyz";
 
-namespace CaesarCipher
+
+string decipher = "";
+for (int i = 0; i < str.Length; i++)
 {
-class Program
-{
-	static void Main(string[] args)
+	if (str[i] == ' ')
 	{
-		Console.Write("Enter a message to encrypt: ");
-		string message = Console.ReadLine();
-
-		Console.Write("Enter a key (1-26): ");
-		int key = int.Parse(Console.ReadLine());
-
-		string encryptedMessage = Encrypt(message, key);
-		Console.WriteLine($"Encrypted message: {encryptedMessage}");
-
-		string decryptedMessage = Decrypt(encryptedMessage, key);
-		Console.WriteLine($"Decrypted message: {decryptedMessage}");
+		decipher += ' ';
 	}
-
-	static string Encrypt(string message, int key)
+	else
 	{
-		char[] encrypted = message.ToLower().ToCharArray().Select(c =>
-		{
-			if (!char.IsLetter(c))
-			{
-				return c;
-			}
-
-			char letter = (char)(c + key);
-
-			if (letter > 'z')
-			{
-				return (char)(letter - 26);
-			}
-
-			return letter;
-		}).ToArray();
-
-		return new string(encrypted);
-	}
-
-	static string Decrypt(string message, int key)
-	{
-		return Encrypt(message, 26 - key);
+		helper = (a * abcd.IndexOf(str[i]) + b) % 26;
+		decipher += abcd[helper];
 	}
 }
-}
+vysledek = decipher;
+Console.WriteLine(vysledek);
+Console.ReadLine();
 			`}							
 		</Prism>
 	</TabPanel>
@@ -270,19 +266,30 @@ class Program
 	<TabPanel>
 		<Prism language="clike">
 			{`
-def cezar_cyper(plaintext, shift):
-cyphertext = ""
-for i in plaintext:
-if i.isalpha():
-cyphertext += chr((ord(i) - ord('a') + shift) % 26 + ord('a'))
-else:
-cyphertext += i
-return cyphertext
+b = 3
+a = 5
+helper = 0
+string = 'hello world'
+vysledek = ''
+abcd = 'abcdefghijklmnopqrstuvwxyz'
 
-print(cezar_cyper("hello world", 0)) # "khoor zruog"
-print(cezar_cyper("hello world", 7)) # "olssv dvysk"
-print(cezar_cyper("hello world", 11)) # "wrrrm jgtgt"
-			`}							
+def afinniCipher(str, a, b):
+	decipher = ''
+	for i in range(len(str)):
+		if str[i] == ' ':
+			decipher += ' '
+		else:
+			helper = (int(a)*abcd.index(str[i]) + int(b)) % 26
+			decipher += abcd[helper]
+	global vysledek
+	vysledek = decipher
+	return decipher
+
+
+cipher_text = afinniCipher(string, a, b)
+print(cipher_text)
+
+	`}							
 		</Prism>
 	</TabPanel>
 </Tabs>

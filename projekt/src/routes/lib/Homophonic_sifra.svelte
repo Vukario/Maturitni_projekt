@@ -1,13 +1,14 @@
 <script>
 // @ts-nocheck
 
-	import Prism from 'svelte-prism'
-
+import Prism from 'svelte-prism'
+import Accordion from './Accordion.svelte'
+import Test from './test.svelte';
 import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
 
 
-    let string =
-  "010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899";
+let string =
+"010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899";
 let pole = string.match(/..?/g);
 
 let homophones = new Array();
@@ -17,13 +18,32 @@ let rng;
 let abc = "abcdefghijklmnopqrstuvwxyz";
 let message = "Ahoj";
 let encrypted = "";
+let krok = new Array();
+let decipherPro = new Array();
+let proslo = false;
+let modKroky = false;
+let kod = [
+		{ id: '0', name: `		encrypted = "";` },
+		{ id: '1', name: `		for (let i = 0; i < message.length; i++) {` },
+		{ id: '2', name: `			const letter = message[i].toLowerCase();` },
+        { id: '3', name: `			if (letter !== " ") {` },
+        { id: '4', name: `			const homophoneIndex = Math.floor(Math.random() * homophones[abc.indexOf(letter)].length);` },
+        { id: '5', name: `			encrypted += homophones[abc.indexOf(letter)][homophoneIndex];` },
+		{ id: '6', name: `			} else {` },
+		{ id: '7', name: `			encrypted += message[i];` },
+        { id: '8', name: `		    }` },
+        { id: '9', name: `		}` },
+	];
+
+
+
 for (let a = 0; a < 26; a++) {
   homophones.push([]);
   for (let b = 0; b < 3; b++) {
     rng = Math.floor(Math.random() * cislo);
-    // @ts-ignore
+
     homophones[a].push(pole[rng]);
-    // @ts-ignore
+  
     pole.splice(rng, 1);
     cislo = cislo - 1;
   }
@@ -31,21 +51,62 @@ for (let a = 0; a < 26; a++) {
 console.log(homophones);
 
 
-
+function ukoncitKrokovani(){
+		proslo = false
+		modKroky = false;
+	}
+	function handleClickModeKroky(){
+		modKroky = true;
+	}	
 
 function handleClick() {
-encrypted = "";
-  for (let i = 0; i < message.length; i++) {
-    const letter = message[i].toLowerCase();
-    if (letter !== " ") {
+    message = message.toLowerCase();
 
+    for (let index = 0; index < message.length; index++) {
+      
+			if (abc.includes(message[index])||message[index]==" ") {
+               
+			}else{
+                
+				encrypted="chybný input";
+				return;
+            }
+			
+		}
+    krok.push(0)
+	decipherPro.push(encrypted)    
+encrypted = "";
+    krok.push(1)
+	decipherPro.push(encrypted)  
+  for (let i = 0; i < message.length; i++) {
+    krok.push(2)
+	decipherPro.push(encrypted)  
+    const letter = message[i].toLowerCase();
+    krok.push(3)
+	decipherPro.push(encrypted)  
+    if (letter !== " ") {
+        krok.push(4)
+	    decipherPro.push(encrypted)  
       const homophoneIndex = Math.floor(Math.random() * homophones[abc.indexOf(letter)].length);
+      
       encrypted += homophones[abc.indexOf(letter)][homophoneIndex];
+      krok.push(5)
+	    decipherPro.push(encrypted)  
+      krok.push(1)
+	  decipherPro.push(encrypted)  
     } else {
+        krok.push(6)
+	decipherPro.push(encrypted)
+ 
       encrypted += message[i];
+      krok.push(7)
+	decipherPro.push(encrypted) 
+      krok.push(1)
+	decipherPro.push(encrypted)  
     }
   }
-  
+  console.log(encrypted);
+  proslo = true;
 }
 
 function handleClick2() {
@@ -100,8 +161,38 @@ function handleClick2() {
     </button>
 
     <h2 class="text-7xl pb-8 text-red-900">{encrypted}</h2>
+    {#if proslo}
+		
+	
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={handleClickModeKroky}
+	>
+		krokování
+	</button>
+	{/if}
+	{#if modKroky}
+	<button
+		class="bg-transparent hover:bg-stone-900 text-stone-900 font-semibold hover:text-white py-2 px-4 border border-stone-900 hover:border-transparent rounded"
+		on:click={ukoncitKrokovani}
+	>
+		ukončit krokování
+	</button>
+	{/if}
+	
+	
+	<div class="w-full float-right dick rounded-lg">
+		
+		{#if modKroky}
+		<Test cats={kod} kroky={krok} postup={decipherPro}></Test>
+		{/if}
+	
+	</div>
 
-    
+    {#if modKroky == false}
+    <Accordion>
+	<span slot="head">Ukázat kód</span>
+	<div slot="details">
     <Tabs>
         <TabList>
             <Tab>JS</Tab>
@@ -244,7 +335,9 @@ function handleClick2() {
             </Prism>
         </TabPanel>
     </Tabs>
-    
+</div>
+</Accordion>
+{/if}
     
     
     
@@ -259,6 +352,13 @@ function handleClick2() {
         
     </svelte:head>
     <style>
+        .dick{
+            background-color: rgb(245,242,240);
+            
+        }
+        .omyl{
+            padding-bottom: 10rem;
+        }
         label {
       color: black;
       font-weight: bold;

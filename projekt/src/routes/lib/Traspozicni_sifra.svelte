@@ -59,10 +59,17 @@ import { Tabs, TabList, TabPanel, Tab } from './tabs.js'
         }
 
         let traspozicniSifra = () => {
+        
+        if (parseInt(key) || key == 0) {
+			
+		}else{
+			vypis="klíč musí být číslo";
+				return;
+		}
         if(key<2){
             return;
         }    
-        
+       
         limit = 0;      
         tabulka = new Array();
         vypis ='';
@@ -181,28 +188,31 @@ bind:value={key}
     </button>
 
     <h2 class="text-7xl pb-8 text-red-900">{vypis}</h2>
-
-    <table class="float-left mr-10">
-        {#each tabulka as catpiss}
+    <div class="h-fit">
+   
+        {#each tabulka as table}
         <tr >
-            {#each Array.from(catpiss) as cat}
+            {#each Array.from(table) as cat}
                 <th class="border-2 p-2">
                     {cat}
                 </th>
             {/each}
         </tr>
+        
         {/each}
-      </table>
-        {#each decipher as catpiss}
+        <div class="pb-1"></div>
+        {#each decipher as table}
         <tr>
-            {#each Array.from(catpiss) as cat}
+            {#each Array.from(table) as cat}
                 <th class="border-2 p-2">
                     {cat}
                 </th>
             {/each}
         </tr>
+        
         {/each}
-
+        <div class="pb-1"></div>
+    </div>
         {#if proslo}
 		
 	
@@ -230,7 +240,7 @@ bind:value={key}
 		{/if}
 	
 	</div>
-
+   
     {#if modKroky == false}
         <Accordion>
             <span slot="head">Ukázat kód</span>
@@ -392,7 +402,7 @@ bind:value={key}
         </div>
     </Accordion>
     {/if}
-        
+   
         
         
         
@@ -419,5 +429,12 @@ bind:value={key}
           font-weight: bold;
           display: block;
         }
+        .bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0; /* set the right to 0 */
+  }
+  
+
         label:after { content: ": " }
         </style>

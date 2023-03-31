@@ -56,58 +56,83 @@ function ukoncitKrokovani(){
     
 function handleClick(){
 //sifrovani
-pocitadlo = 0;
-zakod = "";
-krok.push(0)
-decipherPro.push(zakod)
-krok.push(0)
-decipherPro.push(zakod) 
-for (let p = 0; p < zprava.length; p++) {
-  krok.push(1)
-  decipherPro.push(zakod) 
-  if (zprava[p] !== " ") {
-    
-    zakod += vysledek[abc.indexOf(kod[pocitadlo])][abc.indexOf(zprava[p])];
-    krok.push(2)
-decipherPro.push(zakod) 
-    pocitadlo += 1;
-    krok.push(3)
-decipherPro.push(zakod)
-krok.push(4)
-decipherPro.push(zakod) 
-    if (pocitadlo >= kod.length) {
-      krok.push(5)
-decipherPro.push(zakod) 
-      pocitadlo = 0;
-    }
-  } else {
-    krok.push(7)
-decipherPro.push(zakod) 
-    zakod += " ";
-    krok.push(8)
-decipherPro.push(zakod) 
-  }
+kod = kod.toLowerCase();
+zprava = zprava.toLowerCase();
+kod = kod.replaceAll(' ', '');
+for (let index = 0; index < zprava.length; index++) {
+      
+			if (abc.includes(zprava[index])||zprava[index]==" ") {
+               
+			}else{
+                
+				zakod="chybný input";
+				return;
+            }
+			
+		}
+for (let index = 0; index < kod.length; index++) {
+      
+			if (abc.includes(kod[index])||kod[index]==" ") {
+               
+			}else{
+                
+				zakod="chybný input";
+				return;
+            }
+			
+		}
+  pocitadlo = 0;
+  zakod = "";
   krok.push(0)
-decipherPro.push(zakod) 
-}
-proslo = true;
-}
-function handleClick2(){
-    //desifrovani
-pocitadlo = 0;
-zakod = "";
-console.log(vysledek[abc.indexOf(kod[pocitadlo])]);
-for (let x = 0; x < zprava.length; x++) {
-  if (zprava[x] !== " ") {
-    zakod += abc[vysledek[abc.indexOf(kod[pocitadlo])].indexOf(zprava[x])];
-    pocitadlo += 1;
-    if (pocitadlo >= kod.length) {
-      pocitadlo = 0;
+  decipherPro.push(zakod)
+  krok.push(0)
+  decipherPro.push(zakod) 
+  for (let p = 0; p < zprava.length; p++) {
+    krok.push(1)
+    decipherPro.push(zakod) 
+    if (zprava[p] !== " ") {
+      
+      zakod += vysledek[abc.indexOf(kod[pocitadlo])][abc.indexOf(zprava[p])];
+      krok.push(2)
+  decipherPro.push(zakod) 
+      pocitadlo += 1;
+      krok.push(3)
+  decipherPro.push(zakod)
+  krok.push(4)
+  decipherPro.push(zakod) 
+      if (pocitadlo >= kod.length) {
+        krok.push(5)
+  decipherPro.push(zakod) 
+        pocitadlo = 0;
+      }
+    } else {
+      krok.push(7)
+  decipherPro.push(zakod) 
+      zakod += " ";
+      krok.push(8)
+  decipherPro.push(zakod) 
     }
-  } else {
-    zakod += " ";
+    krok.push(0)
+  decipherPro.push(zakod) 
   }
-}
+  proslo = true;
+  }
+  function handleClick2(){
+      //desifrovani
+  pocitadlo = 0;
+  zakod = "";
+  console.log(vysledek[abc.indexOf(kod[pocitadlo])]);
+  for (let x = 0; x < zprava.length; x++) {
+    if (zprava[x] !== " ") {
+      zakod += abc[vysledek[abc.indexOf(kod[pocitadlo])].indexOf(zprava[x])];
+      pocitadlo += 1;
+      if (pocitadlo >= kod.length) {
+        pocitadlo = 0;
+      }
+    } else {
+      zakod += " ";
+    }
+  }
 }
 
 
@@ -123,7 +148,7 @@ console.log(desifrace);
     
     <h1 class="text-7xl pb-8 ">Viegenova Šifra</h1>
     <p class="text-l pb-8">
-        Vigenérova šifra spočívá v nahrazování písmen otevřeného textu písmeny z klíčového proužku podle jejich pozice v textu. Tento klíčový proužek je vytvořen opakováním klíčového slova, dokud není delší než otevřený text. Každé písmeno otevřeného textu může být nahrazeno písmenem z jiné abecedy, v závislosti na pozici, na které se vyskytuje v otevřeném textu. Pro dešifrování se používá stejný klíčový proužek jako při šifrování. Klíčové slovo je klíčovým faktorem, který určuje způsob nahrazování písmen v otevřeném textu. Pokud je klíčové slovo náhodné a dostatečně dlouhé, může být Vigenèrova šifra poměrně bezpečnou metodou šifrování.</p>
+      Vigenérova šifra je polyalfabetická substituční šifra, která k šifrování a dešifrování využívá tabula recta. Tabula recta obsahuje 26 pod sebou napsaných abeced. Na každém řádku začíná abeceda jiným písmenem. Na prvním řádku je abeceda napsaná standartně od a do z, druhý řádek je posunutý, písmena jsou zapsána od b do z následované písmenem a. Celý proces se opakuje pro každé písmeno. Klíčem pro Vigenèrovu šifru může být libovolné slovo. Při šifrování písmen se hledá ve sloupci každého písmena zprávy odpovídající písmeno ve sloupcích písmen klíče. Pro prvním písmeno zprávy se odpovídající písmeno hledá v řádku prvního písmena klíče. Tento proces se opakuje pro každé písmeno zprávy</p>
 <p></p>
 <label  for="text">Text k zašifrování</label>	
 <textarea
@@ -195,57 +220,42 @@ Dešifrovat
     
         <Prism language="javascript">
             {`
-let cislo = 99;
-let rng;
 let abc = "abcdefghijklmnopqrstuvwxyz";
-let message = "Ahoj";
-let encrypted = "";
-for (let a = 0; a < 26; a++) {
-homophones.push([]);
-for (let b = 0; b < 3; b++) {
-    rng = Math.floor(Math.random() * cislo);
-    homophones[a].push(pole[rng]);
-    pole.splice(rng, 1);
-    cislo = cislo - 1;
-}
-}
-console.log(homophones);
-
-
-
-
-function encription() {
-encrypted = "";
-for (let i = 0; i < message.length; i++) {
-    const letter = message[i].toLowerCase();
-    if (letter !== " ") {
-
-    const homophoneIndex = Math.floor(Math.random() * homophones[abc.indexOf(letter)].length);
-    encrypted += homophones[abc.indexOf(letter)][homophoneIndex];
-    } else {
-    encrypted += message[i];
+let vysledek = new Array();
+let kod = "kod";
+let pocitadlo = 0;
+let zprava = "ahooj jak se mas";
+let zakod = "";
+let pozice = 0;
+let zacatek = 0;
+for (let i = 0; i < 26; i++) { 
+  vysledek.push([]);
+  pozice = zacatek;
+  for (let b = 0; b < 26; b++) {
+    vysledek[i] += abc[pozice];
+    pozice += 1;
+    if (pozice > 25) {
+      pozice = 0;
     }
+  }
+  zacatek += 1;
 }
+pocitadlo = 0;
+zakod = "";
+for (let p = 0; p < zprava.length; p++) {
+  if (zprava[p]!== " ") {
+    zakod += vysledek[abc.indexOf(kod[pocitadlo])][abc.indexOf(zprava[p])];
+  pocitadlo += 1;
 
-}
-
-function decription() {
-encrypted = '';
-for (let i = 0; i < (message.length + message.split(' ').length - 1)/2; i++) {
-    const homophonesArray = Object.values(homophones).flat();
-    console.log(homophonesArray)
-    const homophoneIndex = homophonesArray.indexOf(message.match(/ |..?/g)[i]);
-    if (homophoneIndex !== -1) {
-    const letterIndex = Math.floor(homophoneIndex / 3);
-    encrypted += abc[letterIndex];
-    } else {
-    
-    encrypted += " ";
+    if (pocitadlo >= kod.length) { 
+	 //podmínka zajišťující 
+      pocitadlo = 0;
     }
-    console.log(encrypted);
+  } else {
+    zakod += " "; 
+  }
 }
-
-} `}							
+`}							
         </Prism>
 
     </TabPanel>
